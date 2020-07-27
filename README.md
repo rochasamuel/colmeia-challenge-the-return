@@ -229,4 +229,33 @@ var data = `Pergunta 1; Pergunta 2; Pergunta 3; Pergunta 4; Pergunta 5; Pergunta
 O método retorna um valor booleano indicando se a criação do arquivo foi bem sucedida ou não.
 
 ***Ao abrir o CSV em um programa apropriado ele deve ter o seguinte formato:***
-<img src="https://raw.githubusercontent.com/RochaSamuel/colmeia-challenge-the-return/master/markdownutils/cvsfinal.png"/>
+<img src="https://raw.githubusercontent.com/RochaSamuel/colmeia-challenge-the-return/master/markdownutils/csvfinal.png"/>
+
+### Index File
+O arquivo importa previamente os dois controllers necessários para a execução. Possui uma classe denominada TheOracle. Ao ser construída ela executa seu método em que a chamada está presente no construtor.
+
+```
+constructor() {
+    this.init();
+}
+```
+#### Métodos (***Todos os métodos são assíncronos***):
+
+**`init()`:**
+Quando chamado utiliza da instância da classe AnswerController previamente criada fora da classe para responder todas as perguntas. Após isso ele cria uma instância da classe CSVController e chama o método makeCSV() para efetivamente criar o arquivo final.
+
+```
+console.log('Processing answers. Hold on');
+var r1 = await answer.firstFilm();
+var r2 = await answer.shortLife();
+var r3 = await answer.charGender();
+var r4 = await answer.charHeight();
+var r5 = await answer.charLanguage();
+var r6 = await answer.charInMostPopulatedPlanet();
+
+var csv = new CSVController(r1,r2,r3,r4,r5,r6);
+
+if (csv.makeCSV()) console.log('The Oracle is waiting for you with all answers that you need :) in the root of the project');
+```
+O método apenas executa alguns logs no console.
+
