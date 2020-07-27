@@ -72,3 +72,158 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 
 >**A resposta do comando dever ser os logs gerados pela execução do projeto, juntamente com a confirmação de geração do arquivo .csv**
 
+# Documentação
+* Database
+* Controllers
+* Index File
+
+## Database
+Na pasta database do projeto temos apenas o arquivo `connection.js` que é responsável por gerenciar a conexão da nossa aplicação com o banco de dados.
+
+```
+const APP_ID = "Jl21MbJjOzHoq3eNjK0dY1cuRyQnOeu1GNIGQpY3";
+const JS_KEY = "Aqy19HFsorwxIhCC3E9IYBQh8WBnkdoMGOdEaYPe";
+
+Parse.initialize(APP_ID, JS_KEY);
+Parse.serverURL = "https://parseapi.back4app.com/";
+```
+
+Após a execução é exportado um objeto Parse autenticado para a execução das querys e outros recursos.
+
+**Vale lembrar que para a conexão com o banco e as operações feitas foi utilizado a [biblioteca própria para o gerenciamento do parse no npm](https://www.npmjs.com/package/parse)**
+
+## Controllers
+Na pasta controlers temos dois arquivos são eles: `AnswersController.js` e `CSVController.js`
+
+### Answers Controler
+O arquivo importa previamente a conexão com o banco. Possui uma classe com o nome AnswersController (construtor vazio), que contem métodos responsáveis por responder cada pergunta com seu devido bloco de código.
+
+#### Métodos (***Todos os métodos são assíncronos***):
+
+**`firstFilm()`:**
+Quando chamado executa a busca no banco de dados afim de responder a primeira pergunta requerida (Qual o primeiro filme lançado?).
+
+```
+var query = new Parse.Query("Film");
+query.ascending("releaseDate");
+
+var film = await query.first();
+return film.get("title");
+```
+O método retorna uma string indicando o nome do filme. `'nome_do_filme'`
+
+**`shortLife()`:**
+Quando chamado executa a busca no banco de dados afim de responder a segunda pergunta requerida (Quais espécies vivem menos em média?).
+
+```
+var query = new Parse.Query("Specie");
+query.exists("averageLifespan");
+query.ascending("averageLifespan");
+query.limit(3);
+
+var results = await query.find()
+results = results.map(item => item.get("name"));
+
+return results;
+```
+O método retorna um vetor de strings com os nomes das 3 espécies quem vivem menos. `['specie1', 'specie2', 'specie3']`
+
+**`charGender()`:**
+Quando chamado executa a busca no banco de dados afim de responder a terceira pergunta requerida (Existem quantos personagens de cada gênero?).
+
+```
+var query = new Parse.Query("Character");
+query.equalTo("gender", "male");
+const responseMale = await query.count();
+
+query.equalTo("gender", "female");
+const responseFemale = await query.count();
+
+return [responseMale, responseFemale];
+```
+O método retorna um vetor de inteiros contendo a quantidade de cada gênero (masculino, feminino). `[00, 00]`
+
+**`charHeight()`:**
+Quando chamado executa a busca no banco de dados afim de responder a quarta pergunta requerida (Qual a altura média dos personagens?).
+
+```
+var query = new Parse.Query("Character");
+query.exists("height");
+query.withCount();
+
+var result = await query.find();
+
+result = result.results
+    .map(item => item.get("height"))
+    .reduce((a, b) => a + b, 0) / result.count;
+
+return [...Math.trunc(result).toString()];
+```
+O método retorna um vetor de strings contendo cada caractere correspondente a altura média. `['0', '0', '0']`
+>O retorno foi configurado assim para facilitar a formatação da resposta no arquivo .csv
+
+**`charLanguage()`:**
+Quando chamado executa a busca no banco de dados afim de responder a quinta pergunta requerida (Quais personagens falam a língua Gungan basic?).
+
+```
+let Character = Parse.Object.extend("Character");
+let Specie = Parse.Object.extend("Specie");
+
+var innerQuery = new Parse.Query(Specie);
+innerQuery.equalTo("language", "Gungan basic");
+
+var query = new Parse.Query(Character);
+query.matchesQuery("species", innerQuery);
+
+var results = await query.find();
+results = results.map(item => item.get("name"));
+
+return results;
+```
+O método retorna um vetor de strings contendo o nome dos personagens ques satisfazem a pergunta. `['char1', 'char2', 'char3' ,...]`
+
+**`charInMostPopulatedPlanet()`:**
+Quando chamado executa a busca no banco de dados afim de responder a sexta pergunta requerida (Quantos personagens vivem no planeta mais populoso?).
+
+```
+let Character = Parse.Object.extend("Character");
+let Planet = Parse.Object.extend("Planet");
+
+var innerQuery = new Parse.Query(Planet);
+innerQuery.descending("population");
+
+const planet = await innerQuery.first();
+
+var query = new Parse.Query(Character);
+query.equalTo("homeworld", planet);
+
+return await query.count();
+```
+O método retorna um número inteiro. `0`
+
+### CSV Controler
+O arquivo importa previamente a dependência FileSytem nativa do node para criar e ler arquivos. Possui uma classe com o nome CSVController, no construtor ela recebe as resposta de todas as perguntas sequencialmente. A classe contem um método responsável por formatar as resposta e criar o arquivo .csv.
+
+```
+constructor(q1, q2, q3, q4, q5, q6) {
+    this.q1 = q1;
+    this.q2 = q2;
+    this.q3 = q3;
+    this.q4 = q4;
+    this.q5 = q5;
+    this.q6 = q6;
+}
+```
+#### Métodos:
+**`makeCSV()`:**
+O método recebe um parâmetro dir que é padrão. Ele será responsavel por concatenar, formatar as respostas e inseri-las no csv.
+
+```
+var data = `Pergunta 1; Pergunta 2; Pergunta 3; Pergunta 4; Pergunta 5; Pergunta 6\n${this.q1};"${this.q2}";"${"M:"+this.q3[0]},${"F:"+this.q3[1]}";${this.q4[0]+'.'+this.q4[1]+this.q4[2]};"${this.q5}";${this.q6}`;
+        await fs.writeFile(dir , data, (err) => {
+            if (err) throw err;
+        });
+        return true;
+}
+```
+O método retorna um valor booleano indicando se a criação do arquivo foi bem sucedida ou não.
