@@ -61,7 +61,7 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 
 
 
-### Instruções para rodar o projeto:
+### Instruções para rodar a aplicação:
 **1. Ainda na raiz do projeto rode o seguinte comando (no terminal) para executar efetivamente o código:**
 
    `> npm run answer`
