@@ -24,9 +24,8 @@ class TheOracle {
           // console.log(r6);
           
           var csv = new CSVController(r1,r2,r3,r4,r5,r6);
-          csv.makeCSV();
-     
-          console.log('The Oracle is waiting for you with all answers that you need :) in the root of the project');
+          
+          if (csv.makeCSV()) console.log('The Oracle is waiting for you with all answers that you need :) in the root of the project');
      }
 }
 
