@@ -10,7 +10,7 @@ O app consiste em responder algumas perguntas por meio de progamação, fazendo 
 ---
 
 ## As perguntas: 
-A base consiste em um compilado de informações variadas sobre os detalhes da franquia de filmes Star Wars. [Visualizar estrutura do banco](https://www.back4app.com/database/davimacedo/swapi-star-wars-api).
+A base consiste em um compilado de informações variadas sobre os detalhes da franquia de filmes Star Wars. [Visualizar estrutura do banco](https://www.back4app.com/database/davimacedo/swapi-star-wars-api). Com essas informações deve-se responder as seguintes:
 
 * Qual o nome do primeiro filme lançado?
 * Quais espécies vivem menos tempo em média?
