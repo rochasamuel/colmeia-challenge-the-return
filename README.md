@@ -227,3 +227,6 @@ var data = `Pergunta 1; Pergunta 2; Pergunta 3; Pergunta 4; Pergunta 5; Pergunta
 }
 ```
 O método retorna um valor booleano indicando se a criação do arquivo foi bem sucedida ou não.
+
+***Ao abrir o CSV em um programa apropriado ele deve ter o seguinte formato:***
+<img src="https://raw.githubusercontent.com/RochaSamuel/colmeia-challenge-the-return/master/markdownutils/cvsfinal.png"/>
