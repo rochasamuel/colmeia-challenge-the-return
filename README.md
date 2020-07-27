@@ -47,15 +47,15 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 
 **1.  Na primeira execução abra um terminal e navegue até a pasta raiz do projeto:**
    
-   `cd C:...\colmeia-challenge-the-return`
+   `> cd C:...\colmeia-challenge-the-return`
 
 **2. Rode o seguinte comando para instalar as dependências de projeto:**
 
-   `npm install`
+   `> npm install`
 
 **3. Rode o seguinte comando para iniciar a execução dos testes contidos no projeto:**
 
-   `npm test`
+   `> npm test`
 
 >**Após alguns segundos o console deve retornar o feedback dos testes.**
 
@@ -64,11 +64,11 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 ### Instruções para rodar o projeto:
 **1. Ainda na raiz do projeto rode o seguinte comando (no terminal) para executar efetivamente o código:**
 
-   `npm run answer`
+   `> npm run answer`
 
 *este comando pode ser substituído por:*
 
-   `node src/index.js`
+   `> node src/index.js`
 
 >**A resposta do comando dever ser os logs gerados pela execução do projeto, juntamente com a confirmação de geração do arquivo .csv**
 
