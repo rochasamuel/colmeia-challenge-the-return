@@ -5,7 +5,9 @@ var answer = new AnswersController();
 
 class TheOracle {
 
-     constructor() {}
+     constructor() {
+          this.init();
+     }
 
      //function that will init all the process
      async init(){
@@ -29,5 +31,4 @@ class TheOracle {
      }
 }
 
-var theOracle = new TheOracle();
-theOracle.init();
+
