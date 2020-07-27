@@ -10,12 +10,8 @@ class AnswersController {
         query.equalTo("gender", "male");
         const responseMale = await query.count();
 
-        // console.log(responseMale);
-
         query.equalTo("gender", "female");
         const responseFemale = await query.count();
-
-        // console.log(responseFemale);
 
         return [responseMale, responseFemale];
     }
