@@ -45,15 +45,15 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 
 ### Instruções de preparação do projeto e execução dos testes para verifcar o funcionamento das funções essencias da aplicação:
 
-    1. Na primeira execução abra um terminal e navegue até a psta raiz do projeto:
+**1.  Na primeira execução abra um terminal e navegue até a pasta raiz do projeto:**
    
    * `cd C:...\colmeia-challenge-the-return`
 
-    2. Rode o seguinte comando para instalar as dependências de projeto:
+**2. Rode o seguinte comando para instalar as dependências de projeto:**
 
    * `npm install`
 
-    3. Rode o seguinte comando para iniciar a execução dos testes contidos no projeto:
+**3. Rode o seguinte comando para iniciar a execução dos testes contidos no projeto:**
 
    * `npm test`
 
@@ -62,7 +62,7 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 
 
 ### Instruções para rodar o projeto:
-    1. Ainda na raiz do projeto rode o seguinte comando (no terminal) para executar efetivamente o código:
+**1. Ainda na raiz do projeto rode o seguinte comando (no terminal) para executar efetivamente o código:**
 
    * `npm run answer`
 
