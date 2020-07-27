@@ -1,0 +1,18 @@
+{
+  "name": "colmeia-challenge-2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "answer": "node src/index.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "parse": "^2.15.0"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0"
+  }
+}
