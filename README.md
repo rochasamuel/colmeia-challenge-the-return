@@ -3,7 +3,7 @@
 Aplicação construída com [NodeJs](https://nodejs.org/en/) com o intuito de cumprir o desafio proposto pela [Colmeia](https://aulascolmeia.com.br) no âmbito do processo seletivo para estágio.
 
 ## O que o App faz?
-O app consiste em responder algumas perguntas por meio de progamação, fazendo a análise e extração de dados do banco previamente criado utilizando a plataforma [Parse](https://parseplatform.org/) (Criado pelo Facebook e que atualmente é Open Source) e gerenciado pela [Back4app](https://www.back4app.com/). Ao término da execução a aplicação gera um arquivo no formato .csv que as contém as respostas para cada pergunta.
+O app consiste em responder algumas perguntas por meio de progamação, fazendo a análise e extração de dados do banco previamente criado utilizando a plataforma [Parse](https://parseplatform.org/) (Criado pelo Facebook e que atualmente é Open Source) e gerenciado pela [Back4app](https://www.back4app.com/). Ao término da execução a aplicação gera um arquivo no formato .csv que contém as respostas para cada pergunta.
 
 <img src="https://raw.githubusercontent.com/RochaSamuel/colmeia-challenge-the-return/master/markdownutils/qa.gif" width=180 height=90/><img src="https://raw.githubusercontent.com/RochaSamuel/colmeia-challenge-the-return/master/markdownutils/arrow.gif" width=100 height=100/><img src="https://raw.githubusercontent.com/RochaSamuel/colmeia-challenge-the-return/master/markdownutils/csv.png" width=100 height=100/>
 
