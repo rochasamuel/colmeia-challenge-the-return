@@ -96,7 +96,7 @@ Após a execução é exportado um objeto Parse autenticado para a execução da
 ## Controllers
 Na pasta controlers temos dois arquivos são eles: `AnswersController.js` e `CSVController.js`
 
-### Answers Controler
+### Answers Controller
 O arquivo importa previamente a conexão com o banco. Possui uma classe com o nome AnswersController (construtor vazio), que contem métodos responsáveis por responder cada pergunta com seu devido bloco de código.
 
 #### Métodos (***Todos os métodos são assíncronos***):
@@ -202,7 +202,7 @@ return await query.count();
 ```
 O método retorna um número inteiro. `0`
 
-### CSV Controler
+### CSV Controller
 O arquivo importa previamente a dependência FileSytem nativa do node para criar e ler arquivos. Possui uma classe com o nome CSVController, no construtor ela recebe as resposta de todas as perguntas sequencialmente. A classe contem um método responsável por formatar as resposta e criar o arquivo .csv.
 
 ```Node
