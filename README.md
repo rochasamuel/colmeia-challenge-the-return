@@ -76,11 +76,12 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 * Database
 * Controllers
 * Index File
+* Testes
 
 ## Database
 Na pasta database do projeto temos apenas o arquivo `connection.js` que é responsável por gerenciar a conexão da nossa aplicação com o banco de dados.
 
-```
+```Node
 const APP_ID = "Jl21MbJjOzHoq3eNjK0dY1cuRyQnOeu1GNIGQpY3";
 const JS_KEY = "Aqy19HFsorwxIhCC3E9IYBQh8WBnkdoMGOdEaYPe";
 
@@ -103,7 +104,7 @@ O arquivo importa previamente a conexão com o banco. Possui uma classe com o no
 **`firstFilm()`:**
 Quando chamado executa a busca no banco de dados afim de responder a primeira pergunta requerida (Qual o primeiro filme lançado?).
 
-```
+```Node
 var query = new Parse.Query("Film");
 query.ascending("releaseDate");
 
@@ -115,7 +116,7 @@ O método retorna uma string indicando o nome do filme. `'nome_do_filme'`
 **`shortLife()`:**
 Quando chamado executa a busca no banco de dados afim de responder a segunda pergunta requerida (Quais espécies vivem menos em média?).
 
-```
+```Node
 var query = new Parse.Query("Specie");
 query.exists("averageLifespan");
 query.ascending("averageLifespan");
@@ -131,7 +132,7 @@ O método retorna um vetor de strings com os nomes das 3 espécies quem vivem me
 **`charGender()`:**
 Quando chamado executa a busca no banco de dados afim de responder a terceira pergunta requerida (Existem quantos personagens de cada gênero?).
 
-```
+```Node
 var query = new Parse.Query("Character");
 query.equalTo("gender", "male");
 const responseMale = await query.count();
@@ -146,7 +147,7 @@ O método retorna um vetor de inteiros contendo a quantidade de cada gênero (ma
 **`charHeight()`:**
 Quando chamado executa a busca no banco de dados afim de responder a quarta pergunta requerida (Qual a altura média dos personagens?).
 
-```
+```Node
 var query = new Parse.Query("Character");
 query.exists("height");
 query.withCount();
@@ -165,7 +166,7 @@ O método retorna um vetor de strings contendo cada caractere correspondente a a
 **`charLanguage()`:**
 Quando chamado executa a busca no banco de dados afim de responder a quinta pergunta requerida (Quais personagens falam a língua Gungan basic?).
 
-```
+```Node
 let Character = Parse.Object.extend("Character");
 let Specie = Parse.Object.extend("Specie");
 
@@ -185,7 +186,7 @@ O método retorna um vetor de strings contendo o nome dos personagens ques satis
 **`charInMostPopulatedPlanet()`:**
 Quando chamado executa a busca no banco de dados afim de responder a sexta pergunta requerida (Quantos personagens vivem no planeta mais populoso?).
 
-```
+```Node
 let Character = Parse.Object.extend("Character");
 let Planet = Parse.Object.extend("Planet");
 
@@ -204,7 +205,7 @@ O método retorna um número inteiro. `0`
 ### CSV Controler
 O arquivo importa previamente a dependência FileSytem nativa do node para criar e ler arquivos. Possui uma classe com o nome CSVController, no construtor ela recebe as resposta de todas as perguntas sequencialmente. A classe contem um método responsável por formatar as resposta e criar o arquivo .csv.
 
-```
+```Node
 constructor(q1, q2, q3, q4, q5, q6) {
     this.q1 = q1;
     this.q2 = q2;
@@ -218,7 +219,7 @@ constructor(q1, q2, q3, q4, q5, q6) {
 **`makeCSV()`:**
 O método recebe um parâmetro dir que é padrão. Ele será responsavel por concatenar, formatar as respostas e inseri-las no csv.
 
-```
+```Node
 var data = `Pergunta 1; Pergunta 2; Pergunta 3; Pergunta 4; Pergunta 5; Pergunta 6\n${this.q1};"${this.q2}";"${"M:"+this.q3[0]},${"F:"+this.q3[1]}";${this.q4[0]+'.'+this.q4[1]+this.q4[2]};"${this.q5}";${this.q6}`;
         await fs.writeFile(dir , data, (err) => {
             if (err) throw err;
@@ -234,7 +235,7 @@ O método retorna um valor booleano indicando se a criação do arquivo foi bem 
 ### Index File
 O arquivo importa previamente os dois controllers necessários para a execução. Possui uma classe denominada TheOracle. Ao ser construída ela executa seu método em que a chamada está presente no construtor.
 
-```
+```Node
 constructor() {
     this.init();
 }
@@ -244,7 +245,7 @@ constructor() {
 **`init()`:**
 Quando chamado utiliza da instância da classe AnswerController previamente criada fora da classe para responder todas as perguntas. Após isso ele cria uma instância da classe CSVController e chama o método makeCSV() para efetivamente criar o arquivo final.
 
-```
+```Node
 console.log('Processing answers. Hold on');
 var r1 = await answer.firstFilm();
 var r2 = await answer.shortLife();
@@ -259,3 +260,70 @@ if (csv.makeCSV()) console.log('The Oracle is waiting for you with all answers t
 ```
 O método apenas executa alguns logs no console.
 
+## Testes
+Foram feitos 8 testes, sendo 7 unitários e 1 de integração.
+
+### Integração
+**`dbconnection.test.js`:**
+Trata-se de um arquivo que contém um teste de conexão para garantir que a aplicação está se comunicando devidamente com o banco de dados.
+```Node
+describe("DBConnection", () => {
+    it("Should return Darth Vader height", async () => {
+        var query = new Parse.Query("Character");
+        query.equalTo("name", "Darth Vader");
+
+        var char = await query.first();
+        var result = char.get("height");
+        
+        expect(char).toBeInstanceOf(Parse.Object);
+        expect(result).toBe(202);
+    })
+})
+```
+
+### Unitários
+**`answers.test.js`:**
+Trata-se de um arquivo que contém 6 testes sendo cada um deles para garantir uma resposta válida para as questões.
+
+```Node
+describe("Answers", () => {
+    const answer = new AnswersController();
+
+    it("Should return a valid result about the first film", async () => {
+        query = new Parse.Query("Film");
+        var objects = await query.find();
+        var possibleValues = objects.map(film => film.get("title"));
+
+        var result = await answer.firstFilm();
+
+        expect(result).not.toBeUndefined();
+        expect(possibleValues).toContain(result);
+    });
+    
+    ...
+```
+[Arquivo Completo](https://github.com/RochaSamuel/colmeia-challenge-the-return/blob/master/__tests__/unit/answers.test.js)
+
+**`csvgeneration.test.js`:**
+Trata-se de um arquivo que contém 1 teste para verificar se a função de criação do csv está funcionando corretamente.
+
+```Node
+it("Should return 'true' if csv was sucessfuly created", () => {
+    const csv = new CSVController('test film', ['testspecie','testspecie','testspecie'], [10, 20],
+                                  ['2','1','2'], ['char1','char2','char3'], 6);
+
+    var result = csv.makeCSV('./__tests__/utils/answertest.csv');
+
+    expect(result).not.toBeUndefined();
+    expect(result).toBeTruthy();
+});
+```
+Este utiliza valores fictícios e guarda o resultado na pasta própria para os testes `__tests__\utils`.
+
+## Tecnologias Usadas
+* **[NodeJS](https://nodejs.org/pt-br/)** - Para construção geral da aplicação.
+* **[Parse Package](https://www.npmjs.com/package/parse)** - Para gerenciamento e consultas no banco de dados.
+* **[Jest](https://jestjs.io/)** - Para testes.
+
+---
+*_Desenvolvido por Samuel da Silva Rocha_*
