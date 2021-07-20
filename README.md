@@ -82,8 +82,8 @@ A base consiste em um compilado de informações variadas sobre os detalhes da f
 Na pasta database do projeto temos apenas o arquivo `connection.js` que é responsável por gerenciar a conexão da nossa aplicação com o banco de dados.
 
 ```Node
-const APP_ID = "Jl21MbJjOzHoq3eNjK0dY1cuRyQnOeu1GNIGQpY3";
-const JS_KEY = "Aqy19HFsorwxIhCC3E9IYBQh8WBnkdoMGOdEaYPe";
+const APP_ID = "keydoappBLABLAB098903128904398423432";
+const JS_KEY = "JSkeysmalkmda;slkjdflasjd345346534";
 
 Parse.initialize(APP_ID, JS_KEY);
 Parse.serverURL = "https://parseapi.back4app.com/";
